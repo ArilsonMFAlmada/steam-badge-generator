@@ -20,8 +20,7 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python }}
-    - run: sudo python3 -m pip install requests
-    - run: python handler.py
+    - run: sudo pip install requests && python handler.py    
     - name: serverless deploy
       uses: serverless/github-action@v3.1
       with:
