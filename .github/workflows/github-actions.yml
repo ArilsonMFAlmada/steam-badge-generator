@@ -14,13 +14,13 @@ jobs:
     strategy:
       matrix:
         python: [3.7]
-    steps:
-    - run: sudo pip install requests
+    steps:    
     - uses: actions/checkout@v3
     - name: Use python ${{ matrix.python }}
       uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python }}
+    - run: sudo pip install requests
     - run: python handler.py
     - name: serverless deploy
       uses: serverless/github-action@v3.1
