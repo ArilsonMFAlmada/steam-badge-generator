@@ -1,0 +1,19 @@
+
+service: badge-generator
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  iam:
+    role: arn:aws:iam::554279632216:role/getSteamInformationRole
+  runtime: python3.7
+  versionFunctions: false
+  memorySize: 128
+  region: us-east-1
+
+functions:
+  handler:
+    handler: handler.lambda_handler  
+
+
