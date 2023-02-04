@@ -1,4 +1,4 @@
-import requests
+from botocore.vendored import requests
 import logging
  
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', handlers=[logging.StreamHandler()])
