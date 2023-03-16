@@ -15,5 +15,16 @@ provider:
 functions:
   handler:
     handler: handler.lambda_handler  
+    layers:
+      - "arn:aws:lambda:us-east-1:554279632216:layer:python-app-dependencies:1"
+    events: 
+      - http: 
+          path: badge
+          method: post       
 
-
+layers:
+  python-app-dependencies:
+    path: requests-layer
+    compatibleRuntimes:
+      - python3.7
+    description: "Dependencies requests for python functions"
