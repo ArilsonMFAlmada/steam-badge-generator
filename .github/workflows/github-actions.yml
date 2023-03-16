@@ -19,10 +19,8 @@ jobs:
     - name: Use python ${{ matrix.python }}
       uses: actions/setup-python@v4
       with:
-        python-version: ${{ matrix.python }}
-    - run: cd requests-layer/
-    - run: pip install -t requets -r aws_requirements.txt    
-    - run: cd ..
+        python-version: ${{ matrix.python }} 
+    - run: pip install -t requets -r aws_requirements.txt      
     - run: python handler.py    
     - name: serverless deploy
       uses: serverless/github-action@v3.1
