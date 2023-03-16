@@ -22,12 +22,11 @@ jobs:
       with:
         python-version: ${{ matrix.python }} 
     - run: pip install -t requests -r aws_requirements.txt  
-    - run: python handler.py   
-     
+    - run: python handler.py        
     - name: serverless deploy
       uses: serverless/github-action@v3.1
       with:
         args: deploy
       env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_ACCESS_KEY_ID: AKIAYCDND7VMMHMZKQPH
+        AWS_SECRET_ACCESS_KEY: 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
