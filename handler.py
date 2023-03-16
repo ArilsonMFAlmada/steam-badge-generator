@@ -1,62 +1,26 @@
-from botocore.vendored import requests
 import logging
+import gameinfo
+import gametrophies
+import userinfo
  
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', handlers=[logging.StreamHandler()])
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(message)s',
+                     datefmt='%m/%d/%Y %I:%M:%S %p', 
+                     handlers=[logging.StreamHandler()])
 
 def lambda_handler(event, context):
     steam_id = event['steam_id']
-    app_id = event['app_id']
-    
-    def get_user_info(steam_id):
-        try:
-            url = f"https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=354FE0F772D87A675323E45C5C8350AD&steamids={steam_id}"
-            response = requests.get(url)
-            return response.json()
-        except requests.exceptions.RequestException as e:
-        # Handle the exception here
-            return {
-                "statusCode": 500,
-                "body": "An error occurred while fetching user information.",
-            }            
-          
-    def get_game_info(app_id):
-        try:
-            url = f"https://store.steampowered.com/api/appdetails/?appids={app_id}"
-            response = requests.get(url)
-            return response.json()   
-        except requests.exceptions.RequestException as e:
-        # Handle the exception here
-            return {
-                "statusCode": 500,
-                "body": "An error occurred while fetching game information."
-            }
-            
-    def get_game_trophies(steam_id, app_id):
-        try:
-            url = f"https://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid={app_id}&key=354FE0F772D87A675323E45C5C8350AD&steamids&steamid={steam_id}"
-            response = requests.get(url)
-            return response.json()   
-        except requests.exceptions.RequestException as e:
-        # Handle the exception here
-            return {
-                "statusCode": 500,
-                "body": "An error occurred while fetching user trophies information."
-            }
-            
-    game_info = get_game_info(app_id)
-    game_name = game_info[app_id]["data"]["name"]    
+    app_id = event['app_id']           
   
-    logging.info("generating badge")
     def generate_badge(steam_id, app_id):
         try:
             logging.info("fetching user information")
-            user_info = get_user_info(steam_id)
+            user_info = userinfo.get_user_info(steam_id)
 
             logging.info("fetching user trophies information")           
-            game_trophies = get_game_trophies(steam_id, app_id)
+            game_trophies = gametrophies.get_game_trophies(steam_id, app_id)
 
             logging.info("fetching game information") 
-            game_info = get_game_info(app_id)
+            game_info = gameinfo.get_game_info(app_id)
             game_name = game_info[app_id]["data"]["name"]
 
             if game_trophies['playerstats']['achievements']:
@@ -84,7 +48,6 @@ def lambda_handler(event, context):
                     "body": "No trophies found for this game."
                 }
         except Exception as e:
-        # Handle the exception here
             return {
                 "statusCode": 500,
                 "body": "An error occurred while generating the badge."
