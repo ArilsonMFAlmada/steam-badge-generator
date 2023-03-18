@@ -2,6 +2,7 @@ import logging
 import gameinfo
 import gametrophies
 import userinfo
+import requests
  
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(message)s',
                      datefmt='%m/%d/%Y %I:%M:%S %p', 
@@ -11,9 +12,8 @@ def lambda_handler(event, context):
     steam_id = event['steam_id']
     app_id = event['app_id']           
   
-    def generate_badge(steam_id, app_id):         
-            
-        
+    def generate_badge(steam_id, app_id):      
+        try:
             logging.info("fetching user information")
             user_info = userinfo.get_user_info(steam_id)
 
@@ -47,8 +47,13 @@ def lambda_handler(event, context):
                 return {
                     "statusCode": 200,
                     "body": "No trophies found for this game."
-                }
-        
+                }        
+            
+        except Exception as error:
+            return {
+                "statusCode": 401,
+                "body": "The player's Steam profile is not set to Public."
+            }
 
     return generate_badge(steam_id, app_id)
     
