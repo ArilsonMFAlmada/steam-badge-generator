@@ -11,8 +11,9 @@ def lambda_handler(event, context):
     steam_id = event['steam_id']
     app_id = event['app_id']           
   
-    def generate_badge(steam_id, app_id):
-        try:
+    def generate_badge(steam_id, app_id):         
+            
+        
             logging.info("fetching user information")
             user_info = userinfo.get_user_info(steam_id)
 
@@ -47,11 +48,7 @@ def lambda_handler(event, context):
                     "statusCode": 200,
                     "body": "No trophies found for this game."
                 }
-        except Exception as e:
-            return {
-                "statusCode": 500,
-                "body": "An error occurred while generating the badge."
-            }
+        
 
     return generate_badge(steam_id, app_id)
     
