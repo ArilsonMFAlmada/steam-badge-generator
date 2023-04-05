@@ -22,10 +22,4 @@ functions:
           path: badge
           method: post       
 
-layers:
-  python-app-dependencies:
-    path: requests-layer
-    compatibleRuntimes:
-      - python3.7
-    description: "Dependencies requests for python functions"
     
