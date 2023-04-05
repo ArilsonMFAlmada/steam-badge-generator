@@ -8,9 +8,7 @@ on:
 jobs:
   development-deploy:
     name:  development-deploy
-    runs-on: ubuntu-latest
-    env:
-      NODE_VERSION: 14.x 
+    runs-on: ubuntu-latest    
     strategy:
       matrix:
         python-version:
