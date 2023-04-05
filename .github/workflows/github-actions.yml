@@ -8,6 +8,10 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version:
+          - 3.7
     steps:
       - name: Checkout
         uses: actions/checkout@v2
