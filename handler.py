@@ -2,14 +2,18 @@ import logging
 import gameinfo
 import gametrophies
 import userinfo
+import json
  
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(message)s',
                      datefmt='%m/%d/%Y %I:%M:%S %p', 
                      handlers=[logging.StreamHandler()])
 
 def lambda_handler(event, context):
-    steam_id = event['steam_id']
-    app_id = event['app_id']           
+    logging.info(f"Received event: {event}")
+
+    event = json.loads(event['body'])
+    steam_id = str(event['steam_id'])
+    app_id = str(event['app_id'])           
   
     def generate_badge(steam_id, app_id):      
        
@@ -35,17 +39,26 @@ def lambda_handler(event, context):
                                     
                 return {
                     "statusCode": 200,
-                    "body": f"Congratulations {user_info['response']['players'][0]['personaname']}! You have earned the All Trophies badge for the game {game_name}",
+                    "body": json.dumps(f"Congratulations {user_info['response']['players'][0]['personaname']}! You have earned the All Trophies badge for the game {game_name}"),
+                    "headers": {
+                        "Content-Type": "application/json"
+                    }
                 }                
             else:
                 return {
                     "statusCode": 200,
-                    "body": f"Sorry {user_info['response']['players'][0]['personaname']}, you haven't unlocked all the trophies for the game {game_name}, so you didn't get the badge"
+                    "body": f"Sorry {user_info['response']['players'][0]['personaname']}, you haven't unlocked all the trophies for the game {game_name}, so you didn't get the badge",
+                    "headers": {
+                        "Content-Type": "application/json"
+                    }
                 }
         else:
             return {
                 "statusCode": 200,
-                "body": "No trophies found for this game."
+                "body": "No trophies found for this game.",
+                "headers": {
+                        "Content-Type": "application/json"
+                }
             }          
 
     return generate_badge(steam_id, app_id)
