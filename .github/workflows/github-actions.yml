@@ -16,7 +16,7 @@ jobs:
         run: pip install -r requirements.txt -t ./package
 
       - name: Deploy Serverless Function
-        uses: serverless/github-action@v2.1.1
+        uses: serverless/github-action@v3.1
         with:
           args: deploy
         env:
