@@ -8,16 +8,12 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version:
-          - 3.7
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
       - name: Install Dependencies
-        run: pip install -r requirements.txt -t ./package
+      - run: pip install -t requests -r aws_requirements.txt
 
       - name: Deploy Serverless Function
         uses: serverless/github-action@v3.1
