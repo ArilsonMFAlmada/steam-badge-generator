@@ -1,1 +1,2 @@
+
 # comando para testar a lambda localmente: python-lambda-local -f lambda_handler handler.py event.json
