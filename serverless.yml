@@ -1,4 +1,3 @@
-
 service: badge-generator
 
 frameworkVersion: '3'
