@@ -13,6 +13,7 @@ provider:
 
 functions:
   handler:
+    description: lambda that generate a steam badge
     handler: handler.lambda_handler 
     events: 
       - http: 
